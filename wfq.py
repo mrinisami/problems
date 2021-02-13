@@ -1,31 +1,33 @@
 def isValidSudoku(board) -> bool:
-    # line
-    i = 0
-    b = board
-    new = ""
-    for lists in board:
-        new.join(lists)
-    for i in range(0, 56, 3):
-        sq = set(b[i], b[i + 1], b[i + 2], b[i + 9], b[i + 10], b[i + 11],
-                 b[i + 18], b[i + 19], b[i + 20])
-        sq2 = set(b[i + 1], b[i + 2], b[i + 9], b[i + 10], b[i + 11], b[i + 18],
-                  b[i + 19], b[i + 20])
-        if len(sq) == len(sq2):
-            return False
-    while True:
-        y = i + 1
-        for y in range(9):
-            if board[i] == board[y]:
+    def isValidSudoku(self, board: List[List[str]]) -> bool:
+        new = ""
+        for lists in board:
+            new += "".join(lists)
+        b = new
+        for i in range(0, 73, 9):
+            ts = []
+            for y in range(9):
+                if b[i + y] != ".":
+                    ts.append(b[i + y])
+            if len(ts) != len(set(ts)):
                 return False
-            if board[i] == board[y * 9]:
+        for i in range(9):
+            ts = []
+            for y in range(0, 73, 9):
+                if b[i + y] != ".":
+                    ts.append(b[i + y])
+            if len(ts) != len(set(ts)):
                 return False
-
-isValidSudoku([["5","3",".",".","7",".",".",".","."]
-,["6",".",".","1","9","5",".",".","."]
-,[".","9","8",".",".",".",".","6","."]
-,["8",".",".",".","6",".",".",".","3"]
-,["4",".",".","8",".","3",".",".","1"]
-,["7",".",".",".","2",".",".",".","6"]
-,[".","6",".",".",".",".","2","8","."]
-,[".",".",".","4","1","9",".",".","5"]
-,[".",".",".",".","8",".",".","7","9"]])
+        for o in range(0, 56, 27):
+            for z in range(0, 7, 3):
+                sq = []
+                for k in range(3):
+                    if b[z + o + k] != ".":
+                        sq.append(b[o + z + k])
+                    if b[o + z + 9 + k] != ".":
+                        sq.append(b[o + 9 + z + k])
+                    if b[o + z + 18 + k] != ".":
+                        sq.append(b[o + 18 + z + k])
+                if len(sq) != len(set(sq)):
+                    return False
+        return True
